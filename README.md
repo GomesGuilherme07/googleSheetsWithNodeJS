@@ -126,3 +126,6 @@ async function manipulandoDadosGoogleSheet(){
 
 }
 ~~~
+### Links uteis:
+1. [Documentação google-spreadsheet](https://www.npmjs.com/package/google-spreadsheet)
+2. [Localizar o arquivo de credenciais](https://www.youtube.com/watch?v=TjYIF45IwjQ)
