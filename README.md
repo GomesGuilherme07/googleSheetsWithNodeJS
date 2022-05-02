@@ -14,17 +14,18 @@
 
 ![image](https://user-images.githubusercontent.com/23075005/165371854-960395e7-629d-46a9-87a1-60f0561aac67.png)
 
+3. Dentro do arquivo JSON existe um campo chamado "client_email" com um email gerado para acessar a planilha. Copie o endereço de e-mail e compartilhe o acesso da planilha para esse e-mail.
 
-3. Inicie um novo projeto NodeJS e instale as dependecias:
+4. Inicie um novo projeto NodeJS e instale as dependecias:
 ```sh
 npm install google-spreadsheet@3.2.0
 ```
 ```sh
 npm install nodemon@2.0.15
 ```
-4. Cole o arquivo JSON com as credenciais no mesmo diretório do projeto.
+5. Cole o arquivo JSON com as credenciais no mesmo diretório do projeto.
 
-5. Agora será possível utilizar as credenciais e acessar a planilha
+6. Agora será possível utilizar as credenciais e acessar a planilha
 
 ### Acessando a planilha
 
