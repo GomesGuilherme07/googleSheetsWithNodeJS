@@ -26,8 +26,11 @@ npm install nodemon@2.0.15
 5. Cole o arquivo JSON com as credenciais no mesmo diretório do projeto.
 
 6. Agora será possível utilizar as credenciais e acessar a planilha
+<<<<<<< HEAD
 
 ## Google Sheets
+=======
+>>>>>>> 6d27b7b930cfc7c3b2d9072559248e59714953b7
 
 ### Acessando a planilha
 
