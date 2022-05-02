@@ -1,9 +1,10 @@
 const {GoogleSpreadsheet} = require ('google-spreadsheet');
-const credentials = require ("./credentials.json");
+const credentials = require ("../credentials/credentials.json");
+
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 //ID da planila --> Localizado na URL do documento
 const googleSheetId = '1gSx6ASI6dxspN6fMzVM7puY3zaBhCjmcccDAyM3AlxM';
-
 
 async function acessarGoogleSheet(){
     
@@ -25,7 +26,32 @@ async function acessarGoogleSheet(){
 
 }
 
-async function manipulandoDadosGoogleSheet(){
+async function buscandoDadosGoogleSheet(){
+
+    //Instanciando objeto referente a planilha
+    documento = await acessarGoogleSheet();
+
+    //Selecionando a aba da planilha
+    const sheet = documento.sheetsByIndex[0];
+
+    //Buscando os dados da aba
+    const registros = await sheet.getRows();
+
+    await sheet.loadCells('A1:C11'); 
+
+    //Acessando celula com base no index
+    const nome = sheet.getCell(1, 0); 
+    const sobrenome = sheet.getCell(1, 1);
+    const email = sheet.getCell(1, 2);
+
+    //Exibindo informações das celulas
+    console.log(nome.value);
+    console.log(sobrenome.value);
+    console.log(email.value);
+
+}
+
+async function comandosGoogleSheet(){
 
     try{
 
@@ -54,8 +80,8 @@ async function manipulandoDadosGoogleSheet(){
         await newRow[1].delete(); 
 
         //Atualizando valor de uma celula
-        registros[1].Email = 'sergey@abc.xyz'; // update a value
-        await registros[1].save(); // save updates
+        registros[1].Email = 'sergey@abc.xyz';
+        await registros[1].save();
 
         //Exibindo dados de um celula
         console.log(registros[1].Email);
@@ -77,7 +103,9 @@ async function manipulandoDadosGoogleSheet(){
         a1.note = "Adicionando uma nota"
 
         //Salvando alterações
-        await sheet.saveUpdatedCells();
+        await sheet.saveUpdatedCells();       
+
+        console.log(registros);
 
     } catch(error){
         console.log('error', error)
@@ -85,5 +113,5 @@ async function manipulandoDadosGoogleSheet(){
 
 }
 
-manipulandoDadosGoogleSheet();
+buscandoDadosGoogleSheet();
 

@@ -2,15 +2,18 @@
   "name": "sheets",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon ./slides/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "google-slides": "^2.1.1",
     "google-spreadsheet": "^3.2.0",
+    "googleapis": "^39.2.0",
     "nodemon": "^2.0.15"
   }
 }

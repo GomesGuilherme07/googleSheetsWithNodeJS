@@ -2,7 +2,7 @@
 
 ### Configurando o projeto
 
-1. Com a conta do Google logado, criar um novo projeto no [Google Cloud]( https://console.cloud.google.com/apis/dashboard) e logo após ativar clicar em "ATIVAR APIS E SERVIÇOS". Devemos selecionar o serviço Google Sheets API e Google Drive API e ativá-los.
+1. Com a conta do Google logada, criar um novo projeto no [Google Cloud]( https://console.cloud.google.com/apis/dashboard) e logo após ativar clicar em "ATIVAR APIS E SERVIÇOS". Devemos selecionar o serviço Google Sheets API, Google Slides API, Google Drive API e ativá-los.
 
 ![image](https://user-images.githubusercontent.com/23075005/165371718-0fa0d989-9838-48b3-a2bf-c9f73fabbba7.png)
 
@@ -14,17 +14,20 @@
 
 ![image](https://user-images.githubusercontent.com/23075005/165371854-960395e7-629d-46a9-87a1-60f0561aac67.png)
 
+3. Dentro do arquivo JSON existe um campo chamado "client_email" com um email gerado para acessar a planilha. Copie o endereço de e-mail e compartilhe o acesso da planilha para esse e-mail.
 
-3. Inicie um novo projeto NodeJS e instale as dependecias:
+4. Inicie um novo projeto NodeJS e instale as dependecias:
 ```sh
 npm install google-spreadsheet@3.2.0
 ```
 ```sh
 npm install nodemon@2.0.15
 ```
-4. Cole o arquivo JSON com as credenciais no mesmo diretório do projeto.
+5. Cole o arquivo JSON com as credenciais no mesmo diretório do projeto.
 
-5. Agora será possível utilizar as credenciais e acessar a planilha
+6. Agora será possível utilizar as credenciais e acessar a planilha
+
+## Google Sheets
 
 ### Acessando a planilha
 
@@ -126,6 +129,62 @@ async function manipulandoDadosGoogleSheet(){
 
 }
 ~~~
+
+## Google Slides
+
+### Acessando a apresentação
+
+1. No arquivo index.js faça os imports abaixo (o caminho "./credentials.json" é o local do arquivo JSON com as credenciais, altere para o caminho correto do seu diretório)
+
+~~~javascript
+import { API, TextReplacement, ShapeReplacementWithImage, } from 'google-slides'
+~~~
+
+2. Crie uma constante 'api' que irá ser instanciada passado o arquivo das credenciais
+~~~javascript
+const api = new API('./credentials/credentials.json')
+~~~
+
+3. Crie uma constante que irá receber o ID da apresentação, esse ID é encontrado na URL do arquivo. Substitua <id da planilha> pelo seu ID.
+
+~~~javascript
+const presentationId = '<id da planilha>'; 
+~~~
+
+### Copiando para um novo arquivo
+
+~~~javascript
+const newPresentation = await api.copyPresentation(presentationId);
+console.log(`Copy done --> name: ${newPresentation.name}, id: ${newPresentation.id}`);
+console.log(newPresentation);
+const id = newPresentation.id;
+~~~
+
+### Copiando para um novo arquivo
+
+~~~javascript
+const emailAddress = '<email que deve receber acesso>'
+const role = 'writer'  // owner | organizer | fileOrganizer | writer | commenter | reader
+const type = 'user'  // user | group | domain | anyone
+const sendNotificationEmails = false 
+api.sharePresentation(id, emailAddress, role, type, sendNotificationEmails)
+.then(() => console.log(`Presentation with ID ${id} successfully shared with ${emailAddress}!`))
+~~~
+
+### Substituindo texto dentro do arquivo
+
+1. O TextReplacement recebe como parâmetro o texto que deve ser localizado e o texto que será colocado no lugar. Ex: TextReplacement('Nome', 'Nome Completo'), nesse caso toda correspondência de nome seria substituída para Nome Completo no arquivo.
+
+~~~javascript
+api.presentationBatchUpdate(id, [
+     new TextReplacement('', ''),
+     new TextReplacement('', ''),
+     new TextReplacement('', ''),
+])
+.catch(error => console.log('Error - ', error))
+~~~
+
 ### Links uteis:
 1. [Documentação google-spreadsheet](https://www.npmjs.com/package/google-spreadsheet)
 2. [Localizar o arquivo de credenciais](https://www.youtube.com/watch?v=TjYIF45IwjQ)
+3. [Documentação google-slides](https://www.npmjs.com/package/google-slides#installation)
