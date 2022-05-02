@@ -1,4 +1,6 @@
-# Utilizando NodeJS para acessar planilha (Google Sheets)
+# Utilizando NodeJS para acessar planilha Google Sheets e Google Slides
+
+## Projeto que utiliza NodeJS para manipular dados dentro de uma planilha e atualizar informações de uma apresentação .pptx
 
 ### Configurando o projeto
 

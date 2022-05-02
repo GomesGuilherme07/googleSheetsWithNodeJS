@@ -1,5 +1,5 @@
-import { API, TextReplacement, ShapeReplacementWithImage, Presentation } from 'google-slides'
-
+// import { API, TextReplacement, ShapeReplacementWithImage, Presentation } from 'google-slides'
+const { API, TextReplacement, ShapeReplacementWithImage, Presentation } = require('google-slides')
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
  
 const api = new API('./credentials/credentials.json')

@@ -3,10 +3,7 @@ const credentials = require ("../credentials/credentials.json");
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
-//ID da planila --> Localizado na URL do documento
-const googleSheetId = '1gSx6ASI6dxspN6fMzVM7puY3zaBhCjmcccDAyM3AlxM';
-
-async function acessarGoogleSheet(){
+async function acessarGoogleSheet(googleSheetId){
     
     try{
         //Iniciando a planilha --> Passando o ID do documento como parâmetro
@@ -18,6 +15,8 @@ async function acessarGoogleSheet(){
         // Carregando propriedades do documento
         await documento.loadInfo(); 
 
+        console.log('Acesso ao Google Sheet realizado');
+
         return documento;
 
     }catch(error){        
@@ -26,28 +25,45 @@ async function acessarGoogleSheet(){
 
 }
 
-async function buscandoDadosGoogleSheet(){
+async function buscandoDadosGoogleSheet(googleSheetId){
+
+    try{
 
     //Instanciando objeto referente a planilha
-    documento = await acessarGoogleSheet();
+    documento = await acessarGoogleSheet(googleSheetId);    
 
     //Selecionando a aba da planilha
-    const sheet = documento.sheetsByIndex[0];
+    const sheet = documento.sheetsByIndex[0];    
 
     //Buscando os dados da aba
     const registros = await sheet.getRows();
+    console.log('Registros da planilha carregados');
 
+    //Carregando dados
     await sheet.loadCells('A1:C11'); 
 
     //Acessando celula com base no index
-    const nome = sheet.getCell(1, 0); 
-    const sobrenome = sheet.getCell(1, 1);
-    const email = sheet.getCell(1, 2);
+    // const nome = sheet.getCell(1, 0); 
+    // const sobrenome = sheet.getCell(1, 1);
+    // const email = sheet.getCell(1, 2);
 
-    //Exibindo informações das celulas
-    console.log(nome.value);
-    console.log(sobrenome.value);
-    console.log(email.value);
+    let dados = [];
+
+    for(r in registros){
+        dados.push(
+            {
+                "Nome": registros[r]._rawData[0],
+                "Sobrenome": registros[r]._rawData[1],
+                "Email": registros[r]._rawData[2]
+            }
+        )
+    }
+
+    return dados;
+
+    }catch(e){
+        console.log("Error - ", e)
+    }
 
 }
 
@@ -113,5 +129,8 @@ async function comandosGoogleSheet(){
 
 }
 
-buscandoDadosGoogleSheet();
+module.exports = {
+    buscandoDadosGoogleSheet: buscandoDadosGoogleSheet
+}
+
 
