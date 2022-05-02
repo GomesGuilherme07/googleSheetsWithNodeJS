@@ -29,8 +29,6 @@ npm install nodemon@2.0.15
 <<<<<<< HEAD
 
 ## Google Sheets
-=======
->>>>>>> 6d27b7b930cfc7c3b2d9072559248e59714953b7
 
 ### Acessando a planilha
 
