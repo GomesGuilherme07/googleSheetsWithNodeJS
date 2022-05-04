@@ -1,5 +1,12 @@
-const {GoogleSpreadsheet} = require ('google-spreadsheet');
-const credentials = require ("../credentials/credentials.json");
+// const {GoogleSpreadsheet} = require ('google-spreadsheet');
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+// const credentials = require ("../credentials/credentials.json");
+// import credentials from '../credentials/credentials.json' assert { type: 'json' };
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const credentials = require('../credentials/credentials.json');
+
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
@@ -15,7 +22,7 @@ async function acessarGoogleSheet(googleSheetId){
         // Carregando propriedades do documento
         await documento.loadInfo(); 
 
-        console.log('Acesso ao Google Sheet realizado');
+        console.log('\nAcesso ao Google Sheet realizado');
 
         return documento;
 
@@ -25,44 +32,43 @@ async function acessarGoogleSheet(googleSheetId){
 
 }
 
-async function buscandoDadosGoogleSheet(googleSheetId){
+export async function buscandoDadosGoogleSheet(googleSheetId){
 
     try{
 
-    //Instanciando objeto referente a planilha
-    documento = await acessarGoogleSheet(googleSheetId);    
+        //Instanciando objeto referente a planilha
+        const documento = await acessarGoogleSheet(googleSheetId);    
 
-    //Selecionando a aba da planilha
-    const sheet = documento.sheetsByIndex[0];    
+        //Selecionando a aba da planilha
+        const sheet = documento.sheetsByIndex[0];    
 
-    //Buscando os dados da aba
-    const registros = await sheet.getRows();
-    console.log('Registros da planilha carregados');
+        //Buscando os dados da aba
+        const registros = await sheet.getRows();
+        console.log('\nRegistros da planilha carregados');
 
-    //Carregando dados
-    await sheet.loadCells('A1:C11'); 
+        //Carregando dados
+        await sheet.loadCells('A1:C11'); 
 
-    //Acessando celula com base no index
-    // const nome = sheet.getCell(1, 0); 
-    // const sobrenome = sheet.getCell(1, 1);
-    // const email = sheet.getCell(1, 2);
+        // Pegando o index da ultima linha
+        let lastIndex = registros.length - 1;
 
-    let dados = [];
+        let dados = [];
 
-    for(r in registros){
         dados.push(
             {
-                "Nome": registros[r]._rawData[0],
-                "Sobrenome": registros[r]._rawData[1],
-                "Email": registros[r]._rawData[2]
+                "Nome": registros[lastIndex]._rawData[0],
+                "Sobrenome": registros[lastIndex]._rawData[1],
+                "Email": registros[lastIndex]._rawData[2]
             }
         )
-    }
 
-    return dados;
+        console.log('\nUltima linha da planilha: ')
+        console.log(dados);
+
+        return dados;
 
     }catch(e){
-        console.log("Error - ", e)
+        console.log("\nError - ", e)
     }
 
 }
@@ -129,8 +135,5 @@ async function comandosGoogleSheet(){
 
 }
 
-module.exports = {
-    buscandoDadosGoogleSheet: buscandoDadosGoogleSheet
-}
 
 
