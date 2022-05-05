@@ -1,12 +1,8 @@
-// const {GoogleSpreadsheet} = require ('google-spreadsheet');
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-// const credentials = require ("../credentials/credentials.json");
-// import credentials from '../credentials/credentials.json' assert { type: 'json' };
 
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const credentials = require('../credentials/credentials.json');
-
+const credentials = require('../../credentials/credentials.json');
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
@@ -47,22 +43,22 @@ export async function buscandoDadosGoogleSheet(googleSheetId){
         console.log('\nRegistros da planilha carregados');
 
         //Carregando dados
-        await sheet.loadCells('A1:C11'); 
+        await sheet.loadCells('A1:D300'); 
 
-        // Pegando o index da ultima linha
+        // Pegando o index da ultima linha preenchida
         let lastIndex = registros.length - 1;
 
         let dados = [];
 
         dados.push(
-            {
-                "Nome": registros[lastIndex]._rawData[0],
-                "Sobrenome": registros[lastIndex]._rawData[1],
-                "Email": registros[lastIndex]._rawData[2]
+            {   "Preenchimento Forms": registros[lastIndex]._rawData[0],
+                "Nome": registros[lastIndex]._rawData[1],
+                "Sobrenome": registros[lastIndex]._rawData[2],
+                "Email": registros[lastIndex]._rawData[3]
             }
         )
 
-        console.log('\nUltima linha da planilha: ')
+        console.log('\nUltima linha preenchida da planilha: ')
         console.log(dados);
 
         return dados;

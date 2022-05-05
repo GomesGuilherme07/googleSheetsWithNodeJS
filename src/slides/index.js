@@ -1,19 +1,17 @@
 import { API, TextReplacement, ShapeReplacementWithImage, Presentation } from 'google-slides'
-// const { API, TextReplacement, ShapeReplacementWithImage, Presentation } = require('google-slides')
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
  
 const api = new API('./credentials/credentials.json')
-// const presentationId = '1dxTMrDV9rjSp4FMNM6Ic0M3zDB7w3hQV6p9SesketX4'; 
 
 export async function copySlide(presentationId, dados){
 
      try{
 
           //Copiando o template para um novo arquivo
-          const newPresentation = await api.copyPresentation(presentationId);
+          const newPresentation = await api.copyPresentation(presentationId); 
           
-          console.log(`\nApresentação copiada --> name: ${newPresentation.name}, id: ${newPresentation.id}`);   
+          console.log(`\nname: ${newPresentation.name}, id: ${newPresentation.id}`);   
 
           const newPresentationId = newPresentation.id;          
           
